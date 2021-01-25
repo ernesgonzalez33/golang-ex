@@ -14,7 +14,7 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 		response = "Hello OpenShift!"
 	}
 
-	fmt.Fprintln(w, response)
+	fmt.Fprintln(w, response+" "+os.Getenv("HOSTNAME"))
 	fmt.Println("Servicing request.")
 }
 
