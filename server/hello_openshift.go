@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 )
@@ -24,8 +26,29 @@ func listenAndServe(port string) {
 	}
 }
 
+func requestHandler(w http.ResponseWriter, r *http.Request) {
+	service := os.Getenv("SERVICE_TO_GET")
+	if len(service) == 0 {
+		fmt.Fprintln(w, "No service to get")
+	}
+
+	resp, err := http.Get(service)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("%s\n", body)
+
+}
+
 func main() {
 	http.HandleFunc("/", helloHandler)
+	http.HandleFunc("/request", requestHandler)
 	port := os.Getenv("PORT")
 	if len(port) == 0 {
 		port = "8080"
