@@ -43,7 +43,7 @@ func requestHandler(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	fmt.Fprintln(w, body)
+	fmt.Fprintln(w, string(body))
 
 }
 
