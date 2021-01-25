@@ -30,6 +30,7 @@ func requestHandler(w http.ResponseWriter, r *http.Request) {
 	service := os.Getenv("SERVICE_TO_GET")
 	if len(service) == 0 {
 		fmt.Fprintln(w, "No service to get")
+		return
 	}
 
 	resp, err := http.Get(service)
