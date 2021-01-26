@@ -1,13 +1,13 @@
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
-  name: hello-world-gateway
+  name: hello-world-gateway-out-egress
 spec:
   selector:
-    istio: ingressgateway
+    istio: egressgateway
   servers:
   - hosts:
-    - 'hello.apps.apps.sandbox1706.opentlc.com'
+    - 'httpbin.org'
     port:
       name: http
       number: 80

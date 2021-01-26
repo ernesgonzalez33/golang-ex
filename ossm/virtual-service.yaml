@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  labels:
+    app: hello-world-go
+  name: hello-ingress
+spec:
+  hosts:
+  - 'hello.apps.apps.sandbox1706.opentlc.com'
+  gateways:
+  - hello-world-gateway
+  http:
+  - route:
+    - destination:
+        host: server2
+        port:
+          number: 8080
+      weight: 100

@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  labels:
+    app: hello-world-go
+  name: server
+spec:
+  hosts:
+  - 'server'
+  gateways:
+  - mesh
+  http:
+  - route:
+    - destination:
+        host: server
+        port:
+          number: 8080
+      weight: 100

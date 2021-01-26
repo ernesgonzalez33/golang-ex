@@ -1,0 +1,26 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: filter
+spec:
+  configPatches:
+  - applyTo: HTTP_FILTER
+    match:
+      context: SIDECAR_OUTBOUND
+      listener:
+        filterChain:
+          applicationProtocols: h2, http/1.1, http/1.0
+    patch:
+      operation: INSERT_BEFORE
+      value:
+        name: lra.add_headers
+        typed_config:
+          '@type': type.googleapis.com/envoy.config.filter.http.lua.v2.Lua
+          inlineCode: |
+            function envoy_on_request(request_handle)
+              request_handle:logDebug("x-lra-service: " .. "value")
+              request_handle:headers():replace("x-lra-service", "value")
+            end
+  workloadSelector:
+    labels:
+      application: hello-world-go 
